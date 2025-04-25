@@ -7,6 +7,7 @@ import { WalletProvider } from "@/context/WalletContext";
 import Index from "./pages/Index";
 import Collections from "./pages/Collections";
 import NotFound from "./pages/NotFound";
+import NFTDetails from "./pages/NFTDetails";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/collections" element={<Collections />} />
+            <Route path="/nft/:id" element={<NFTDetails />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
