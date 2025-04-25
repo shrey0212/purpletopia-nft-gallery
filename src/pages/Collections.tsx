@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -7,12 +6,15 @@ import Button from '@/components/Button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import NFTCard from '@/components/NFTCard';
+import { LoadingState } from '@/components/LoadingState';
+import { EmptyState } from '@/components/EmptyState';
 
 const CollectionsPage = () => {
   // State for filters
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Sample NFT data
   const nfts = [
@@ -309,7 +311,9 @@ const CollectionsPage = () => {
 
             {/* NFT Grid */}
             <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-6`}>
-              {nfts.length > 0 ? (
+              {isLoading ? (
+                <LoadingState />
+              ) : nfts.length > 0 ? (
                 nfts.map((nft) => (
                   <NFTCard
                     key={nft.id}
@@ -321,14 +325,8 @@ const CollectionsPage = () => {
                   />
                 ))
               ) : (
-                <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
-                  <div className="rounded-full bg-gray-800 p-4 mb-4">
-                    <Search size={32} className="text-gray-400" />
-                  </div>
-                  <h3 className="text-xl font-medium mb-2">No NFTs found</h3>
-                  <p className="text-gray-400 max-w-md">
-                    We couldn't find any NFTs matching your search criteria. Try adjusting your filters or search terms.
-                  </p>
+                <div className="col-span-full">
+                  <EmptyState />
                 </div>
               )}
             </div>
