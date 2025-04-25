@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Search, SlidersHorizontal, Grid, List } from 'lucide-react';
+import { SlidersHorizontal, X } from 'lucide-react';
 import Button from '@/components/Button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import NFTCard from '@/components/NFTCard';
-import { LoadingState } from '@/components/LoadingState';
-import { EmptyState } from '@/components/EmptyState';
+import { FilterSidebar } from '@/components/collections/FilterSidebar';
+import { SearchSort } from '@/components/collections/SearchSort';
+import { NFTGrid } from '@/components/collections/NFTGrid';
 
 const CollectionsPage = () => {
   // State for filters
@@ -124,64 +122,15 @@ const CollectionsPage = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Filter Sidebar (Desktop) */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="bg-secondary rounded-xl p-6 sticky top-24">
-              <h3 className="font-medium text-lg mb-6">Filters</h3>
-              
-              {/* Price Range */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-4">Price Range (ETH)</h4>
-                <Slider 
-                  defaultValue={[0, 100]} 
-                  max={100} 
-                  step={1}
-                  value={priceRange}
-                  onValueChange={setPriceRange}
-                  className="mb-2"
-                />
-                <div className="flex justify-between">
-                  <span className="text-sm text-gray-400">{priceRange[0]} ETH</span>
-                  <span className="text-sm text-gray-400">{priceRange[1]} ETH</span>
-                </div>
-              </div>
-              
-              {/* Creator Filter */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-4">Creators</h4>
-                <div className="space-y-3 max-h-40 overflow-y-auto pr-2">
-                  {creators.map(creator => (
-                    <div key={creator.id} className="flex items-center">
-                      <Checkbox id={`creator-${creator.id}`} className="border-gray-600" />
-                      <label htmlFor={`creator-${creator.id}`} className="ml-2 text-sm text-gray-300 cursor-pointer">
-                        {creator.name}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Sale Type */}
-              <div className="mb-8">
-                <h4 className="font-medium mb-4">Sale Type</h4>
-                <div className="space-y-3">
-                  {saleTypes.map(type => (
-                    <div key={type.id} className="flex items-center">
-                      <Checkbox id={`sale-${type.id}`} className="border-gray-600" />
-                      <label htmlFor={`sale-${type.id}`} className="ml-2 text-sm text-gray-300 cursor-pointer">
-                        {type.label}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Clear Filters Button */}
-              <Button variant="secondary" className="w-full">
-                Clear Filters
-              </Button>
-            </div>
-          </aside>
+          {/* Filter Sidebar */}
+          <FilterSidebar 
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            creators={creators}
+            saleTypes={saleTypes}
+            isMobileFilterOpen={isMobileFilterOpen}
+            toggleMobileFilter={toggleMobileFilter}
+          />
 
           {/* Mobile Filter Button */}
           <div className="lg:hidden mb-4">
@@ -202,61 +151,14 @@ const CollectionsPage = () => {
                   </button>
                 </div>
                 
-                {/* Price Range */}
-                <div className="mb-8">
-                  <h4 className="font-medium mb-4">Price Range (ETH)</h4>
-                  <Slider 
-                    defaultValue={[0, 100]} 
-                    max={100} 
-                    step={1}
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    className="mb-2"
-                  />
-                  <div className="flex justify-between">
-                    <span className="text-sm text-gray-400">{priceRange[0]} ETH</span>
-                    <span className="text-sm text-gray-400">{priceRange[1]} ETH</span>
-                  </div>
-                </div>
-                
-                {/* Creator Filter */}
-                <div className="mb-8">
-                  <h4 className="font-medium mb-4">Creators</h4>
-                  <div className="space-y-3">
-                    {creators.map(creator => (
-                      <div key={creator.id} className="flex items-center">
-                        <Checkbox id={`mobile-creator-${creator.id}`} className="border-gray-600" />
-                        <label htmlFor={`mobile-creator-${creator.id}`} className="ml-2 text-sm text-gray-300 cursor-pointer">
-                          {creator.name}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Sale Type */}
-                <div className="mb-8">
-                  <h4 className="font-medium mb-4">Sale Type</h4>
-                  <div className="space-y-3">
-                    {saleTypes.map(type => (
-                      <div key={type.id} className="flex items-center">
-                        <Checkbox id={`mobile-sale-${type.id}`} className="border-gray-600" />
-                        <label htmlFor={`mobile-sale-${type.id}`} className="ml-2 text-sm text-gray-300 cursor-pointer">
-                          {type.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex gap-4">
-                  <Button variant="secondary" className="flex-1">
-                    Clear
-                  </Button>
-                  <Button variant="primary" className="flex-1" onClick={toggleMobileFilter}>
-                    Apply
-                  </Button>
-                </div>
+                <FilterSidebar 
+                  priceRange={priceRange}
+                  setPriceRange={setPriceRange}
+                  creators={creators}
+                  saleTypes={saleTypes}
+                  isMobileFilterOpen={isMobileFilterOpen}
+                  toggleMobileFilter={toggleMobileFilter}
+                />
               </div>
             </div>
           )}
@@ -264,93 +166,18 @@ const CollectionsPage = () => {
           {/* Main Content Area */}
           <div className="flex-1">
             {/* Search & Sort Component */}
-            <div className="bg-secondary rounded-xl p-4 mb-6">
-              <div className="flex flex-col md:flex-row gap-4">
-                {/* Search */}
-                <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search size={18} className="text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Search by name or creator..."
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-700 rounded-lg bg-gray-800 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                
-                {/* Sort Dropdown */}
-                <div className="flex-shrink-0 w-full md:w-48">
-                  <select className="w-full px-3 py-2 border border-gray-700 rounded-lg bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-                    {statusFilters.map(filter => (
-                      <option key={filter.value} value={filter.value}>
-                        {filter.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                
-                {/* View Toggle */}
-                <div className="flex-shrink-0 hidden md:block">
-                  <div className="flex border border-gray-700 rounded-lg overflow-hidden">
-                    <button
-                      className={`p-2 ${viewMode === 'grid' ? 'bg-purple-700' : 'bg-gray-800 hover:bg-gray-700'}`}
-                      onClick={() => setViewMode('grid')}
-                    >
-                      <Grid size={18} />
-                    </button>
-                    <button
-                      className={`p-2 ${viewMode === 'list' ? 'bg-purple-700' : 'bg-gray-800 hover:bg-gray-700'}`}
-                      onClick={() => setViewMode('list')}
-                    >
-                      <List size={18} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SearchSort 
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              statusFilters={statusFilters}
+            />
 
             {/* NFT Grid */}
-            <div className={`grid ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'} gap-6`}>
-              {isLoading ? (
-                <LoadingState />
-              ) : nfts.length > 0 ? (
-                nfts.map((nft) => (
-                  <NFTCard
-                    key={nft.id}
-                    image={nft.image}
-                    name={nft.name}
-                    creatorName={nft.creatorName}
-                    creatorAvatar={nft.creatorAvatar}
-                    price={nft.price}
-                  />
-                ))
-              ) : (
-                <div className="col-span-full">
-                  <EmptyState />
-                </div>
-              )}
-            </div>
-
-            {/* Pagination (could be replaced with infinite scroll) */}
-            <div className="mt-12 flex justify-center">
-              <nav className="flex space-x-1">
-                <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-400 hover:bg-gray-700">
-                  Previous
-                </button>
-                <button className="px-3 py-1 rounded-md bg-purple-700 text-white">
-                  1
-                </button>
-                <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-400 hover:bg-gray-700">
-                  2
-                </button>
-                <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-400 hover:bg-gray-700">
-                  3
-                </button>
-                <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-400 hover:bg-gray-700">
-                  Next
-                </button>
-              </nav>
-            </div>
+            <NFTGrid 
+              nfts={nfts}
+              isLoading={isLoading}
+              viewMode={viewMode}
+            />
           </div>
         </div>
       </div>
@@ -359,23 +186,5 @@ const CollectionsPage = () => {
     </div>
   );
 };
-
-const X = ({ size = 24, className = '' }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <line x1="18" y1="6" x2="6" y2="18"></line>
-    <line x1="6" y1="6" x2="18" y2="18"></line>
-  </svg>
-);
 
 export default CollectionsPage;
