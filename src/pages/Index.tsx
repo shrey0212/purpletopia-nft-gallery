@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Wallet, Search, TrendingUp } from 'lucide-react';
@@ -148,8 +147,8 @@ const LandingPage = () => {
                 {/* Featured Artwork */}
                 <div className="rounded-2xl overflow-hidden border border-purple-500/30 shadow-xl animate-float purple-glow">
                   <img 
-                    src="https://images.unsplash.com/photo-1626080308314-d19fab3c3213?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                    alt="Featured NFT Artwork" 
+                    src="https://img-cdn.tnwcdn.com/image?url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2021%2F03%2F1_4OjfTFl_CSbMvxpkZpmZZQ.jpeg&signature=9c6f0d2f565d5cc711897c2d439bc3f3" 
+                    alt="Featured NFT Artwork - Beeple's Everydays: The First 5000 Days" 
                     className="w-full h-auto"
                   />
                 </div>

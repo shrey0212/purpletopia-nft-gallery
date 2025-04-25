@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Search, X } from 'lucide-react';
 import Button from './Button';
+import { ConnectWallet } from './ConnectWallet';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,9 +51,7 @@ const Navbar: React.FC = () => {
 
           {/* Connect Wallet Button - Desktop */}
           <div className="hidden md:block">
-            <Button variant="primary">
-              Connect Wallet
-            </Button>
+            <ConnectWallet />
           </div>
 
           {/* Mobile Menu Button */}
@@ -109,9 +107,9 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
             
-            <Button variant="primary" fullWidth>
-              Connect Wallet
-            </Button>
+            <div className="w-full">
+              <ConnectWallet />
+            </div>
           </div>
         )}
       </div>
